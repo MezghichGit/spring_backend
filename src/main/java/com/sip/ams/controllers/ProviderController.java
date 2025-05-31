@@ -16,44 +16,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sip.ams.entities.Provider;
 import com.sip.ams.repositories.ProviderRepository;
-
+import com.sip.ams.services.ProviderService;
 @RestController
 @RequestMapping("/api/providers")
 public class ProviderController {
-	
 	@Autowired
-	ProviderRepository providerRepository;
+	ProviderService providerService;
 	
 	@GetMapping("/list")
 	public List<Provider> getProviders() {
-		return providerRepository.findAll();
+		return this.providerService.listProviders();
 	}
 
 	
 	@PostMapping("/add")
 	public Provider addproviderToList(@RequestBody Provider p) {
-		providerRepository.save(p);
-		return p;
+		return this.providerService.addProvider(p);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteProvider(@PathVariable("id") int id) {
-		providerRepository.deleteById(id);
+		this.providerService.deleteProvider(id);
 
 	}
 	
 	
 	@GetMapping("/getById/{id}")
 	public Optional<Provider> getProvider(@PathVariable("id") int id) {
-		return providerRepository.findById(id);
+		return this.providerService.getProvider(id);
 	}
 	
 	@PutMapping("/update/{id}")
     public Provider updateProvider(@PathVariable int id, @RequestBody Provider providerDetails) {
-        Provider provider = providerRepository.findById(id).orElseThrow();
-        provider.setNom(providerDetails.getNom());
-        provider.setEmail(providerDetails.getEmail());
-        return providerRepository.save(provider);
+       return this.providerService.updateProvider(id, providerDetails);
     }
 
 	
