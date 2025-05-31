@@ -36,6 +36,26 @@ public class ProviderController {
 		return p;
 	}
 
+	@DeleteMapping("/delete/{id}")
+	public void deleteProvider(@PathVariable("id") int id) {
+		providerRepository.deleteById(id);
+
+	}
+	
+	
+	@GetMapping("/getById/{id}")
+	public Optional<Provider> getProvider(@PathVariable("id") int id) {
+		return providerRepository.findById(id);
+	}
+	
+	@PutMapping("/update/{id}")
+    public Provider updateProvider(@PathVariable int id, @RequestBody Provider providerDetails) {
+        Provider provider = providerRepository.findById(id).orElseThrow();
+        provider.setNom(providerDetails.getNom());
+        provider.setEmail(providerDetails.getEmail());
+        return providerRepository.save(provider);
+    }
+
 	
 	/*
 	static List<Provider> providers = new ArrayList<>();
