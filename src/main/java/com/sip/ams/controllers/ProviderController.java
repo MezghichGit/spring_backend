@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,11 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sip.ams.entities.Provider;
+import com.sip.ams.repositories.ProviderRepository;
 
 @RestController
 @RequestMapping("/api/providers")
 public class ProviderController {
+	
+	@Autowired
+	ProviderRepository providerRepository;
+	
+	@GetMapping("/list")
+	public List<Provider> getProviders() {
+		return providerRepository.findAll();
+	}
 
+	
+	@PostMapping("/add")
+	public Provider addproviderToList(@RequestBody Provider p) {
+		providerRepository.save(p);
+		return p;
+	}
+
+	
+	/*
 	static List<Provider> providers = new ArrayList<>();
 	static {
 		Provider p1 = new Provider(1, "Toshiba", "toshiba@gmail.com");
@@ -36,7 +55,7 @@ public class ProviderController {
 	}
 
 	@GetMapping("/list")
-	public List<Provider> getProvides() {
+	public List<Provider> getProviders() {
 		return providers;
 	}
 
@@ -92,5 +111,5 @@ public class ProviderController {
 		}
 		else return Optional.empty();
 			//throw new IllegalArgumentException("Provider introuvable");
-	}
+	}*/
 }
