@@ -11,7 +11,14 @@ public class Provider {
 	
 	private String nom;
 	private String email;
+	private String details;
 	
+	public String getDetails() {
+		return details;
+	}
+	public void setDetails(String details) {
+		this.details = details;
+	}
 	public int getId() {
 		return id;
 	}
@@ -30,17 +37,20 @@ public class Provider {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Provider(int id, String nom, String email) {
+
+	public Provider() {
+		super();
+	}
+	public Provider(int id, String nom, String email, String details) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.email = email;
-	}
-	public Provider() {
-		super();
+		this.details = details;
 	}
 	@Override
 	public String toString() {
-		return "Provider [id=" + id + ", nom=" + nom + ", email=" + email + "]";
+		return "Provider [id=" + id + ", nom=" + nom + ", email=" + email + ", details=" + details + "]";
 	}
+	
 }
