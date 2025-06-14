@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,13 @@ public class ProviderServiceImp implements ProviderService{
 	
 	@Autowired
 	ProviderRepository providerRepository;
+	
+	@Override
+	public Page<Provider> pageProviders(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+		logger.info("Récupération de la liste des providers");
+		return providerRepository.findAll(pageable);
+	}
 	
 	@Override
 	public List<Provider> listProviders() {

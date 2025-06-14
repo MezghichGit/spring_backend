@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sip.ams.entities.Provider;
 
 public interface ProviderService {
 	
+	public Page<Provider> pageProviders(int page, int size);
 	public List<Provider> listProviders();
 	//public Provider addProvider(Provider provider);
 	public Provider  addProvider(int id,String nom,String email, String details, String ville, MultipartFile file)throws IOException;
