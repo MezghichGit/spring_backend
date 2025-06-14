@@ -66,17 +66,26 @@ public class ArticleServiceImp implements ArticleService {
 	public boolean deleteArticle(int id) {
 		if (articleRepository.existsById(id)) {
 			articleRepository.deleteById(id);
-			logger.info("Suppression de l'article avec succès avec ID : " +id);
+			logger.info("Suppression de l'article avec succès avec ID : " + id);
 			return true;
 		}
-		logger.info("Problème de suppression de l'article avec ID : "+id);
+		logger.info("Problème de suppression de l'article avec ID : " + id);
 		return false;
 	}
 
 	@Override
-	public Optional<Article> getArticle(int id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	// Récupérer un article par son ID
+	public Optional<Article> getArticleById(int id) {
+		Optional<Article> articleOptional = articleRepository.findById(id);
+
+		if (articleOptional.isPresent()) {
+			// Forcer le chargement du provider
+			Article article = articleOptional.get();
+			Optional<Provider> providerOptional = providerRepository.findById(article.getProvider().getId());
+			providerOptional.ifPresent(article::setProvider);
+		}
+		logger.info("Récupération de l'article avec succès : " + articleOptional.get().getLibelle());
+		return articleOptional;
 	}
 
 }

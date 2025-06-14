@@ -1,6 +1,7 @@
 package com.sip.ams.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,6 +45,11 @@ public class ArticleController {
 	@PutMapping("/{id}")
 	public Article updateArticle(@PathVariable("id")int id,@RequestBody Article article) {
 		return this.articleServiceImp.updateArticle(id, article);
+	}
+	
+	@GetMapping("/{id}")
+	public Optional<Article> getArticleById(@PathVariable("id")int id) {
+		return this.articleServiceImp.getArticleById(id);
 	}
 
 }
