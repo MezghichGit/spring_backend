@@ -37,7 +37,7 @@ public class ArticleServiceImp implements ArticleService{
 		if (providerOptional.isPresent()) {
 			article.setProvider(providerOptional.get());
 		}
-
+		logger.info("Sauvegarde d'un nouvel article : "+article.getLibelle());
 		return articleRepository.save(article);
 	}
 	
