@@ -17,9 +17,19 @@ public class Article {
     //@DBRef // Chargement immédiat du provider
     private Provider provider; // ManyToOne avec Provider
 
+    private String photo;
+    
     // --- Getters & Setters ---
 
-    public int getId() {
+    public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public int getId() {
         return id;
     }
 

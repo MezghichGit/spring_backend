@@ -1,5 +1,9 @@
 package com.sip.ams.services;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sip.ams.entities.Article;
 import com.sip.ams.entities.Provider;
@@ -17,7 +22,7 @@ import com.sip.ams.repositories.ProviderRepository;
 public class ArticleServiceImp implements ArticleService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImp.class);
-
+	private final Path root = Paths.get(System.getProperty("user.dir") + "/src/main/resources/static/uploads");
 	@Autowired
 	ArticleRepository articleRepository;
 	@Autowired
@@ -30,13 +35,23 @@ public class ArticleServiceImp implements ArticleService {
 	}
 
 	@Override
-	public Article addArticle(Article article) {
+	public Article addArticle(int id, String libelle, double prix, int provider, MultipartFile file) throws IOException {
+	//public Article addArticle(Article article, MultipartFile file) throws IOException {
 		// Charger le provider explicitement
-		Optional<Provider> providerOptional = providerRepository.findById(article.getProvider().getId());
+		Optional<Provider> providerOptional = providerRepository.findById(provider);
 
+		Article article = new Article();
+		article.setId(id);
+		article.setLibelle(libelle);
+		article.setPrix(prix);
 		if (providerOptional.isPresent()) {
 			article.setProvider(providerOptional.get());
 		}
+	     // Appeler la méthode uploadImage pour sauvegarder l'image et récupérer le chemin
+        String photoPath = uploadImage(file);
+
+        // Mettre à jour l'attribut photo de l'article
+        article.setPhoto(photoPath);
 		logger.info("Sauvegarde d'un nouvel article : " + article.getLibelle());
 		return articleRepository.save(article);
 	}
@@ -87,5 +102,35 @@ public class ArticleServiceImp implements ArticleService {
 		logger.info("Récupération de l'article avec succès : " + articleOptional.get().getLibelle());
 		return articleOptional;
 	}
+	
+	// Méthode pour gérer l'upload d'une image pour un article
+    public String uploadImage(MultipartFile file) throws IOException {
+        // Créer un nom unique pour l'image
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        
+        // Définir le chemin complet du fichier
+        Path path = Paths.get(root +"/"+ fileName);
+
+        // Sauvegarder l'image dans le dossier
+        Files.write(path, file.getBytes());
+
+        // Retourner le chemin de l'image
+        return fileName;  // Cela stockera seulement le nom de l'image dans la base de données
+    }
+    
+    // Ajouter une photo à un article existant
+    public Article addPhotoToArticle(int articleId, MultipartFile file) throws IOException {
+        // Récupérer l'article par son ID
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new RuntimeException("Article not found"));
+
+        // Appeler la méthode uploadImage pour sauvegarder l'image et récupérer le chemin
+        String photoPath = uploadImage(file);
+
+        // Mettre à jour l'attribut photo de l'article
+        article.setPhoto(photoPath);
+
+        // Sauvegarder l'article avec le chemin de l'image
+        return articleRepository.save(article);
+    }
 
 }

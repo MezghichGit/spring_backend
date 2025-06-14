@@ -1,5 +1,6 @@
 package com.sip.ams.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sip.ams.entities.Article;
 import com.sip.ams.entities.Provider;
@@ -33,8 +36,14 @@ public class ArticleController {
 	
 	
 	@PostMapping("/")
-	public Article saveArticle(@RequestBody Article article) {
-		return this.articleServiceImp.addArticle(article);
+	
+	public Article saveArticle(
+			@RequestParam(name="id") int id,
+			@RequestParam(name="libelle") String libelle,
+			@RequestParam(name="prix") double prix,
+			@RequestParam(name="provider") int provider,
+			@RequestParam(name="imageFile") MultipartFile file) throws IOException {
+		return this.articleServiceImp.addArticle(id,libelle,prix,provider, file);
 	}
 	
 	@DeleteMapping("/{id}")
