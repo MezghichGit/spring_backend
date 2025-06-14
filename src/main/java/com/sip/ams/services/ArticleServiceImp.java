@@ -3,14 +3,26 @@ package com.sip.ams.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.sip.ams.entities.Article;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.sip.ams.entities.Article;
+import com.sip.ams.repositories.ArticleRepository;
+
+@Service
 public class ArticleServiceImp implements ArticleService{
 
+	private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImp.class);
+	
+	@Autowired
+	ArticleRepository articleRepository;
+	
 	@Override
 	public List<Article> listArticles() {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("Récupération de la liste des articles");
+		return articleRepository.findAll();
 	}
 
 	@Override
