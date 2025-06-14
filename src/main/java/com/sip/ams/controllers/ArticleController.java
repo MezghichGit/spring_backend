@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sip.ams.entities.Article;
+import com.sip.ams.entities.Provider;
 import com.sip.ams.services.ArticleServiceImp;
 
 @RequestMapping("/api/articles")
@@ -25,10 +27,10 @@ public class ArticleController {
 		return this.articleServiceImp.listArticles();
 	}
 	
-	/*
+	
 	@PostMapping("/")
-	public List<Article> saveArticle() {
-		return this.articleServiceImp.listArticles();
-	}*/
+	public Article saveArticle(@RequestBody Article article) {
+		return this.articleServiceImp.addArticle(article);
+	}
 
 }

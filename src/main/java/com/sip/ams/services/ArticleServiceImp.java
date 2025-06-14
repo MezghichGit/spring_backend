@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sip.ams.entities.Article;
+import com.sip.ams.entities.Provider;
 import com.sip.ams.repositories.ArticleRepository;
+import com.sip.ams.repositories.ProviderRepository;
 
 @Service
 public class ArticleServiceImp implements ArticleService{
@@ -18,6 +20,8 @@ public class ArticleServiceImp implements ArticleService{
 	
 	@Autowired
 	ArticleRepository articleRepository;
+	@Autowired
+	ProviderRepository providerRepository;
 	
 	@Override
 	public List<Article> listArticles() {
@@ -27,9 +31,16 @@ public class ArticleServiceImp implements ArticleService{
 
 	@Override
 	public Article addArticle(Article article) {
-		// TODO Auto-generated method stub
-		return null;
+		// Charger le provider explicitement
+		Optional<Provider> providerOptional = providerRepository.findById(article.getProvider().getId());
+
+		if (providerOptional.isPresent()) {
+			article.setProvider(providerOptional.get());
+		}
+
+		return articleRepository.save(article);
 	}
+	
 
 	@Override
 	public Article updateArticle(int id, Article article) {
