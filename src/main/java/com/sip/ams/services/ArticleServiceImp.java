@@ -42,8 +42,22 @@ public class ArticleServiceImp implements ArticleService {
 	}
 
 	@Override
-	public Article updateArticle(int id, Article article) {
-		// TODO Auto-generated method stub
+	// Mettre à jour un article existant
+	public Article updateArticle(int id, Article articleDetails) {
+		Optional<Article> articleOptional = articleRepository.findById(id);
+		if (articleOptional.isPresent()) {
+			Article article = articleOptional.get();
+			article.setLibelle(articleDetails.getLibelle());
+			article.setPrix(articleDetails.getPrix());
+			// Charger le provider explicitement
+			Optional<Provider> providerOptional = providerRepository.findById(article.getProvider().getId());
+
+			if (providerOptional.isPresent()) {
+				article.setProvider(providerOptional.get());
+			}
+			logger.info("Mise à jour de l'article avec succès, libellé: " + article.getLibelle());
+			return articleRepository.save(article);
+		}
 		return null;
 	}
 
