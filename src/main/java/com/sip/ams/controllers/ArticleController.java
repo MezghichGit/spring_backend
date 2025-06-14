@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleController {
-
+/*
     @Autowired
     private ArticleRepository articleRepository;
 
@@ -77,5 +77,5 @@ public class ArticleController {
 
         articleRepository.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }
