@@ -17,5 +17,6 @@ public interface ProviderService {
 	public Provider updateProvider(int id, Provider provider);
 	//public void deleteProvider(int id);
 	public Optional<Provider> getProvider(int id);
+	public List<Provider> findByNom(String nom);
 
 }

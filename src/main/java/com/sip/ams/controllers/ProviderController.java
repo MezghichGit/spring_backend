@@ -34,6 +34,11 @@ public class ProviderController {
 	}
 
 	
+	@GetMapping("/search/{nom}")
+	public List<Provider> getProviders(@PathVariable("nom")String nom) {
+		return this.providerService.findByNom(nom);
+	}
+	
 	@PostMapping("/")
 	public Provider addproviderToList(@RequestParam(name="id") int id,
 			@RequestParam(name="nom") String nom,

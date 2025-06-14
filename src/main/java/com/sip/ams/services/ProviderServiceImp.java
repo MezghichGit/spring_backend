@@ -78,4 +78,11 @@ public class ProviderServiceImp implements ProviderService{
 		return providerRepository.findById(id);
 	}
 
+	@Override
+	public List<Provider> findByNom(String nom) {
+		// TODO Auto-generated method stub
+		//return providerRepository.findByNom(nom);
+		return providerRepository.findByNomIgnoreCaseContaining(nom);
+	}
+
 }
