@@ -6,9 +6,9 @@ import java.util.Optional;
 import com.sip.ams.entities.Article;
 
 public interface ArticleService {
-	public List<Article> listProviders();
-	public Article  addProvider(Article  article );
-	public Article  updateProvider(int id, Article  article);
+	public List<Article> listArticles();
+	public Article  addArticle(Article  article );
+	public Article  updateArticle(int id, Article  article);
 	public void deleteArticle (int id);
-	public Optional<Article > getProvider(int id);
+	public Optional<Article > getArticle(int id);
 }
