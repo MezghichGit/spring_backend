@@ -47,7 +47,7 @@ public class ArticleController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public boolean deleteArticle(@PathVariable("id")int id) {
+	public boolean deleteArticle(@PathVariable("id")int id) throws IOException{
 		return this.articleServiceImp.deleteArticle(id);
 	}
 	

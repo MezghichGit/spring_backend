@@ -78,9 +78,15 @@ public class ArticleServiceImp implements ArticleService {
 
 	// Supprimer un article par ID
 	@Override
-	public boolean deleteArticle(int id) {
+	public boolean deleteArticle(int id) throws IOException {
+		Path path = null;
+		
 		if (articleRepository.existsById(id)) {
-			articleRepository.deleteById(id);
+			// Ajouter la suppression de l'image de l'article en question
+			path = Paths.get(root +"/"+ articleRepository.findById(id).get().getPhoto());
+	        // Sauvegarder l'image dans le dossier
+	        Files.delete(path);
+	        articleRepository.deleteById(id);
 			logger.info("Suppression de l'article avec succès avec ID : " + id);
 			return true;
 		}
