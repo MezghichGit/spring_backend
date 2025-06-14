@@ -32,6 +32,13 @@ public class ProviderController {
 	public List<Provider> getProviders() {
 		return this.providerService.listProviders();
 	}
+	
+	@GetMapping("/search/{nom}/{ville}")
+	public List<Provider> getProviders(@PathVariable(value = "nom", required = false) String nom, 
+	                                    @PathVariable(value = "ville", required = false) String ville) {
+	        return providerService.findByNomAndVille(nom, ville);
+	    
+	}
 
 	
 	@GetMapping("/search/{nom}")
@@ -44,8 +51,9 @@ public class ProviderController {
 			@RequestParam(name="nom") String nom,
 			@RequestParam(name="email") String email,
 			@RequestParam(name="details") String details,
+			@RequestParam(name="ville") String ville,
 			@RequestParam(name="imageFile") MultipartFile file) throws IOException  {
-		return this.providerService.addProvider(id,nom,email,details,file);
+		return this.providerService.addProvider(id,nom,email,details,ville,file);
 	}
 
 	@DeleteMapping("/{id}")

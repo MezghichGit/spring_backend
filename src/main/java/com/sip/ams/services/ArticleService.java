@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sip.ams.entities.Article;
+import com.sip.ams.entities.Provider;
 
 public interface ArticleService {
 	public List<Article> listArticles();
@@ -15,4 +16,5 @@ public interface ArticleService {
 	public Article  updateArticle(int id, Article  article);
 	public boolean deleteArticle (int id)throws IOException;
 	public Optional<Article > getArticleById(int id);
+	public List<Article> findByLibelle(String libelle);
 }

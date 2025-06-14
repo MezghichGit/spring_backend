@@ -32,13 +32,14 @@ public class ProviderServiceImp implements ProviderService{
 	}
 
 	@Override	
-	public Provider addProvider(int id,String nom,String email, String details, MultipartFile file)throws IOException{
+	public Provider addProvider(int id,String nom,String email, String details, String ville, MultipartFile file)throws IOException{
 		
 		Provider provider = new Provider();
 		provider.setId(id);
 		provider.setNom(nom);
 		provider.setDetails(details);
 		provider.setEmail(email);
+		provider.setVille(ville);
 	     // Appeler la méthode uploadImage pour sauvegarder l'image et récupérer le chemin
         String photoPath = Utilitaire.uploadImage(file);
 
@@ -83,6 +84,18 @@ public class ProviderServiceImp implements ProviderService{
 		// TODO Auto-generated method stub
 		//return providerRepository.findByNom(nom);
 		return providerRepository.findByNomIgnoreCaseContaining(nom);
+	}
+
+	@Override
+	public List<Provider> findByNomAndVille(String nom, String ville) {
+		// TODO Auto-generated method stub
+		return providerRepository.findByNomAndVille(nom, ville);
+	}
+
+	@Override
+	public List<Provider> findByVille(String ville) {
+		// TODO Auto-generated method stub
+		return providerRepository.findByVille(ville);
 	}
 
 }

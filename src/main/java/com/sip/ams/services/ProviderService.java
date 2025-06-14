@@ -12,11 +12,13 @@ public interface ProviderService {
 	
 	public List<Provider> listProviders();
 	//public Provider addProvider(Provider provider);
-	public Provider  addProvider(int id,String nom,String email, String details, MultipartFile file)throws IOException;
+	public Provider  addProvider(int id,String nom,String email, String details, String ville, MultipartFile file)throws IOException;
 	public void deleteProvider(int id) throws IOException;
 	public Provider updateProvider(int id, Provider provider);
 	//public void deleteProvider(int id);
 	public Optional<Provider> getProvider(int id);
 	public List<Provider> findByNom(String nom);
+	public List<Provider> findByVille(String ville);
+	public List<Provider> findByNomAndVille(String nom, String ville);
 
 }

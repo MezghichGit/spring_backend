@@ -13,7 +13,14 @@ public class Provider {
 	private String email;
 	private String details;
 	private String logo;
+	private String ville;
 	
+	public String getVille() {
+		return ville;
+	}
+	public void setVille(String ville) {
+		this.ville = ville;
+	}
 	public String getLogo() {
 		return logo;
 	}
@@ -58,7 +65,8 @@ public class Provider {
 	}
 	@Override
 	public String toString() {
-		return "Provider [id=" + id + ", nom=" + nom + ", email=" + email + ", details=" + details + "]";
+		return "Provider [id=" + id + ", nom=" + nom + ", email=" + email + ", details=" + details + ", logo=" + logo
+				+ ", ville=" + ville + "]";
 	}
 	
 }

@@ -126,4 +126,10 @@ public class ArticleServiceImp implements ArticleService {
         return articleRepository.save(article);
     }
 
+	@Override
+	public List<Article> findByLibelle(String libelle) {
+		// TODO Auto-generated method stub
+		return articleRepository.findByLibelleIgnoreCaseContaining(libelle);
+	}
+
 }

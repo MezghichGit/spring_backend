@@ -35,6 +35,11 @@ public class ArticleController {
 	}
 	
 	
+	@GetMapping("/search/{libelle}")
+	public List<Article> getArticles(@PathVariable("libelle")String libelle) {
+		return this.articleServiceImp.findByLibelle(libelle);
+	}
+	
 	@PostMapping("/")
 	
 	public Article saveArticle(
