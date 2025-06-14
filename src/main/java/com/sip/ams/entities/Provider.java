@@ -65,8 +65,7 @@ public class Provider {
 	}
 	@Override
 	public String toString() {
-		return "Provider [id=" + id + ", nom=" + nom + ", email=" + email + ", details=" + details + ", logo=" + logo
-				+ ", ville=" + ville + "]";
+		return "Provider [id=" + id + ", nom=" + nom + ", email=" + email + ", details=" + details +"]";
 	}
 	
 }
