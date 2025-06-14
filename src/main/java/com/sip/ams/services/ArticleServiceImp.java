@@ -14,15 +14,15 @@ import com.sip.ams.repositories.ArticleRepository;
 import com.sip.ams.repositories.ProviderRepository;
 
 @Service
-public class ArticleServiceImp implements ArticleService{
+public class ArticleServiceImp implements ArticleService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImp.class);
-	
+
 	@Autowired
 	ArticleRepository articleRepository;
 	@Autowired
 	ProviderRepository providerRepository;
-	
+
 	@Override
 	public List<Article> listArticles() {
 		logger.info("Récupération de la liste des articles");
@@ -37,10 +37,9 @@ public class ArticleServiceImp implements ArticleService{
 		if (providerOptional.isPresent()) {
 			article.setProvider(providerOptional.get());
 		}
-		logger.info("Sauvegarde d'un nouvel article : "+article.getLibelle());
+		logger.info("Sauvegarde d'un nouvel article : " + article.getLibelle());
 		return articleRepository.save(article);
 	}
-	
 
 	@Override
 	public Article updateArticle(int id, Article article) {
@@ -48,10 +47,16 @@ public class ArticleServiceImp implements ArticleService{
 		return null;
 	}
 
+	// Supprimer un article par ID
 	@Override
-	public void deleteArticle(int id) {
-		// TODO Auto-generated method stub
-		
+	public boolean deleteArticle(int id) {
+		if (articleRepository.existsById(id)) {
+			articleRepository.deleteById(id);
+			logger.info("Suppression de l'article avec succès avec ID : " +id);
+			return true;
+		}
+		logger.info("Problème de suppression de l'article avec ID : "+id);
+		return false;
 	}
 
 	@Override

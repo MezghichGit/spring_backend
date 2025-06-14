@@ -9,6 +9,6 @@ public interface ArticleService {
 	public List<Article> listArticles();
 	public Article  addArticle(Article  article );
 	public Article  updateArticle(int id, Article  article);
-	public void deleteArticle (int id);
+	public boolean deleteArticle (int id);
 	public Optional<Article > getArticle(int id);
 }
