@@ -22,7 +22,7 @@ import com.sip.ams.repositories.ProviderRepository;
 public class ArticleServiceImp implements ArticleService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImp.class);
-	private final Path root = Paths.get(System.getProperty("user.dir") + "/src/main/resources/static/uploads");
+	
 	@Autowired
 	ArticleRepository articleRepository;
 	@Autowired
@@ -48,7 +48,7 @@ public class ArticleServiceImp implements ArticleService {
 			article.setProvider(providerOptional.get());
 		}
 	     // Appeler la méthode uploadImage pour sauvegarder l'image et récupérer le chemin
-        String photoPath = uploadImage(file);
+        String photoPath = Utilitaire.uploadImage(file);
 
         // Mettre à jour l'attribut photo de l'article
         article.setPhoto(photoPath);
@@ -83,7 +83,7 @@ public class ArticleServiceImp implements ArticleService {
 		
 		if (articleRepository.existsById(id)) {
 			// Ajouter la suppression de l'image de l'article en question
-			path = Paths.get(root +"/"+ articleRepository.findById(id).get().getPhoto());
+			path = Paths.get(Utilitaire.root +"/"+ articleRepository.findById(id).get().getPhoto());
 	        // Sauvegarder l'image dans le dossier
 	        Files.delete(path);
 	        articleRepository.deleteById(id);
@@ -109,20 +109,7 @@ public class ArticleServiceImp implements ArticleService {
 		return articleOptional;
 	}
 	
-	// Méthode pour gérer l'upload d'une image pour un article
-    public String uploadImage(MultipartFile file) throws IOException {
-        // Créer un nom unique pour l'image
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        
-        // Définir le chemin complet du fichier
-        Path path = Paths.get(root +"/"+ fileName);
-
-        // Sauvegarder l'image dans le dossier
-        Files.write(path, file.getBytes());
-
-        // Retourner le chemin de l'image
-        return fileName;  // Cela stockera seulement le nom de l'image dans la base de données
-    }
+	
     
     // Ajouter une photo à un article existant
     public Article addPhotoToArticle(int articleId, MultipartFile file) throws IOException {
@@ -130,7 +117,7 @@ public class ArticleServiceImp implements ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new RuntimeException("Article not found"));
 
         // Appeler la méthode uploadImage pour sauvegarder l'image et récupérer le chemin
-        String photoPath = uploadImage(file);
+        String photoPath = Utilitaire.uploadImage(file);
 
         // Mettre à jour l'attribut photo de l'article
         article.setPhoto(photoPath);

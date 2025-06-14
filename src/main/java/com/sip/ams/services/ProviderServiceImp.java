@@ -1,11 +1,15 @@
 package com.sip.ams.services;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sip.ams.entities.Provider;
 import com.sip.ams.repositories.ProviderRepository;
@@ -27,9 +31,21 @@ public class ProviderServiceImp implements ProviderService{
 		return providerRepository.findAll();
 	}
 
-	@Override
-	public Provider addProvider(Provider provider) {
-		logger.info("Ajout d'un provider : {}", provider);
+	@Override	
+	public Provider addProvider(int id,String nom,String email, String details, MultipartFile file)throws IOException{
+		
+		Provider provider = new Provider();
+		provider.setId(id);
+		provider.setNom(nom);
+		provider.setDetails(details);
+		provider.setEmail(email);
+	     // Appeler la méthode uploadImage pour sauvegarder l'image et récupérer le chemin
+        String photoPath = Utilitaire.uploadImage(file);
+
+        // Mettre à jour l'attribut photo de l'article
+        provider.setLogo(photoPath);
+		logger.info("Sauvegarde d'un nouvel provider : " + provider.getId());
+		 
 		return providerRepository.save(provider);
 	}
 
@@ -45,8 +61,13 @@ public class ProviderServiceImp implements ProviderService{
 	}
 
 	@Override
-	public void deleteProvider(int id) {
+	public void deleteProvider(int id) throws IOException      {
+		Path path = null;
 		logger.warn("Suppression du provider id {}", id);
+		// Ajouter la suppression de l'image de provider  
+		path = Paths.get(Utilitaire.root +"/"+ providerRepository.findById(id).get().getLogo());
+	    // suppression l'image dans le dossier
+	    Files.delete(path);
 		providerRepository.deleteById(id);
 		
 	}

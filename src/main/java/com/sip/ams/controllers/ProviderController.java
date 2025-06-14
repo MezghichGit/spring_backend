@@ -1,5 +1,6 @@
 package com.sip.ams.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sip.ams.entities.Provider;
 import com.sip.ams.repositories.ProviderRepository;
@@ -25,30 +28,33 @@ public class ProviderController {
 	@Autowired
 	ProviderService providerService;
 	
-	@GetMapping("/list")
+	@GetMapping("/")
 	public List<Provider> getProviders() {
 		return this.providerService.listProviders();
 	}
 
 	
-	@PostMapping("/add")
-	public Provider addproviderToList(@RequestBody Provider p) {
-		return this.providerService.addProvider(p);
+	@PostMapping("/")
+	public Provider addproviderToList(@RequestParam(name="id") int id,
+			@RequestParam(name="nom") String nom,
+			@RequestParam(name="email") String email,
+			@RequestParam(name="details") String details,
+			@RequestParam(name="imageFile") MultipartFile file) throws IOException  {
+		return this.providerService.addProvider(id,nom,email,details,file);
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public void deleteProvider(@PathVariable("id") int id) {
+	@DeleteMapping("/{id}")
+	public void deleteProvider(@PathVariable("id") int id)  throws IOException{
 		this.providerService.deleteProvider(id);
-
 	}
 	
 	
-	@GetMapping("/getById/{id}")
+	@GetMapping("/{id}")
 	public Optional<Provider> getProvider(@PathVariable("id") int id) {
 		return this.providerService.getProvider(id);
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/{id}")
     public Provider updateProvider(@PathVariable int id, @RequestBody Provider providerDetails) {
        return this.providerService.updateProvider(id, providerDetails);
     }

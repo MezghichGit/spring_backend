@@ -12,6 +12,14 @@ public class Provider {
 	private String nom;
 	private String email;
 	private String details;
+	private String logo;
+	
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 	
 	public String getDetails() {
 		return details;
