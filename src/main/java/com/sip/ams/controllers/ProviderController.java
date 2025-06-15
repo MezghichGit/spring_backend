@@ -33,7 +33,7 @@ public class ProviderController {
 	@Autowired
 	ProviderService providerService;
 
-	@GetMapping("/")
+	@GetMapping()
 	public List<Provider> getProviders() {
 		return this.providerService.listProviders();
 	}
