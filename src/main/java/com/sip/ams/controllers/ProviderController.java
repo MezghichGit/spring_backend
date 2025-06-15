@@ -26,22 +26,22 @@ import com.sip.ams.repositories.ProviderRepository;
 import com.sip.ams.services.ProviderService;
 
 @RestController
-@RequestMapping("/api/providers")
+@RequestMapping("/api/providers/")
 @CrossOrigin("*")
 public class ProviderController {
 
 	@Autowired
 	ProviderService providerService;
 
-	@GetMapping("/all")
+	@GetMapping("/")
 	public List<Provider> getProviders() {
 		return this.providerService.listProviders();
 	}
 
-	@GetMapping("/")
-	public Page<Provider> getProviders(int page, int size) {
-		return this.providerService.pageProviders(page, size);
-	}
+	/*
+	 * @GetMapping("/") public Page<Provider> getProviders(int page, int size) {
+	 * return this.providerService.pageProviders(page, size); }
+	 */
 
 	@GetMapping("/search/{nom}/{ville}")
 	public List<Provider> getProviders(@PathVariable(value = "nom", required = false) String nom,
@@ -71,7 +71,7 @@ public class ProviderController {
 	 * return this.providerService.addProvider(id,nom,email,details,ville,file); }
 	 */
 
-	@PostMapping("/")
+	@PostMapping("/addWithImage")
 	public ResponseEntity<Provider> addproviderToList(@RequestParam(name = "id") int id,
 			@RequestParam(name = "nom") String nom, @RequestParam(name = "email") String email,
 			@RequestParam(name = "details") String details, @RequestParam(name = "ville") String ville,
@@ -80,53 +80,50 @@ public class ProviderController {
 				HttpStatus.CREATED);
 	}
 
-	//Autre retour avec un msg
-	/*
-	  @PostMapping
-		public ResponseEntity<String> createProvider(@RequestBody Provider provider) {
-		    Provider savedProvider = providerService.save(provider);
-		    return new ResponseEntity<>("Le Provider a été créé avec succès!", HttpStatus.CREATED);
-		}
-	 */
-	/*
-	@DeleteMapping("/{id}")
-	public void deleteProvider(@PathVariable("id") int id) throws IOException {
-		this.providerService.deleteProvider(id);
-	}*/
+	// Autre retour avec un msg
 
-	
-	//Le type Void dans ResponseEntity<Void> indique 
-	//qu'il n'y a pas de corps dans la réponse. Void signifie 
-	//qu'il n'y a pas d'objet ou de contenu retourné, ce qui 
-	//est souvent utilisé pour des réponses telles que 204 No Content, 
-	//où il n'y a pas de données supplémentaires à renvoyer.
-	
+	@PostMapping
+	public ResponseEntity<Provider> createProvider(@RequestBody Provider provider) {
+		Provider savedProvider = providerService.addProvider(provider);
+		return new ResponseEntity<>(savedProvider, HttpStatus.CREATED);
+	}
+
+	/*
+	 * @DeleteMapping("/{id}") public void deleteProvider(@PathVariable("id") int
+	 * id) throws IOException { this.providerService.deleteProvider(id); }
+	 */
+
+	// Le type Void dans ResponseEntity<Void> indique
+	// qu'il n'y a pas de corps dans la réponse. Void signifie
+	// qu'il n'y a pas d'objet ou de contenu retourné, ce qui
+	// est souvent utilisé pour des réponses telles que 204 No Content,
+	// où il n'y a pas de données supplémentaires à renvoyer.
+
 	@DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProvider(@PathVariable int id) throws IOException{
-        boolean isDeleted = this.providerService.deleteProvider(id);
-        if (isDeleted) {
-            // Retourner un code 204 (No Content) pour une suppression réussie sans contenu
-            return new ResponseEntity<>("Provider with id : "+id+" deleted", HttpStatus.NO_CONTENT);
-        } else {
-            // Si le provider n'existe pas, retournez un code 404 (Not Found)
-            return new ResponseEntity<>("Provider with id : "+id+" not found", HttpStatus.NOT_FOUND);
-        }
-    }
-	
+	public ResponseEntity<String> deleteProvider(@PathVariable int id) throws IOException {
+		boolean isDeleted = this.providerService.deleteProvider(id);
+		if (isDeleted) {
+			// Retourner un code 204 (No Content) pour une suppression réussie sans contenu
+			return new ResponseEntity<>("Provider with id : " + id + " deleted", HttpStatus.NO_CONTENT);
+		} else {
+			// Si le provider n'existe pas, retournez un code 404 (Not Found)
+			return new ResponseEntity<>("Provider with id : " + id + " not found", HttpStatus.NOT_FOUND);
+		}
+	}
+
 	/*
 	 * @GetMapping("/{id}") public Optional<Provider>
 	 * getProvider(@PathVariable("id") int id) { return
 	 * this.providerService.getProvider(id); }
 	 */
-	
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Provider> getProvider(@PathVariable("id") int id) {
 		Provider provider = this.providerService.getProvider(id).get();
-		
-		//Provider provider = null;
+
+		// Provider provider = null;
 		if (provider == null)
-			//throw new IllegalArgumentException("Argument invalide");
+			// throw new IllegalArgumentException("Argument invalide");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>(provider, HttpStatus.OK);
@@ -137,12 +134,12 @@ public class ProviderController {
 		return this.providerService.updateProvider(id, providerDetails);
 	}
 	/*
-	  @ExceptionHandler(Exception.class)
-	    public ResponseEntity<String> handleException(Exception e) {
-	        // En cas d'erreur interne, retourner un code 500 (Internal Server Error)
-	        return new ResponseEntity<>("Une erreur interne est survenue : "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-*/
+	 * @ExceptionHandler(Exception.class) public ResponseEntity<String>
+	 * handleException(Exception e) { // En cas d'erreur interne, retourner un code
+	 * 500 (Internal Server Error) return new
+	 * ResponseEntity<>("Une erreur interne est survenue : "+e.getMessage(),
+	 * HttpStatus.INTERNAL_SERVER_ERROR); }
+	 */
 	/*
 	 * static List<Provider> providers = new ArrayList<>(); static { Provider p1 =
 	 * new Provider(1, "Toshiba", "toshiba@gmail.com"); Provider p2 = new
