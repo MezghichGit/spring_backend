@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,8 @@ public class ProviderServiceImp implements ProviderService {
 	@Override
 	public List<Provider> listProviders() {
 		logger.info("Récupération de la liste des providers");
+		//List<Provider> l = new ArrayList<>();
+		//return l;
 		return providerRepository.findAll();
 	}
 
@@ -115,6 +118,12 @@ public class ProviderServiceImp implements ProviderService {
 	public List<Provider> findByVille(String ville) {
 		// TODO Auto-generated method stub
 		return providerRepository.findByVille(ville);
+	}
+
+	@Override
+	public Provider addProvider(Provider provider) {
+		// TODO Auto-generated method stub
+		return providerRepository.save(provider);
 	}
 
 }

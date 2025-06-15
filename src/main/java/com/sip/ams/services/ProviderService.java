@@ -13,7 +13,7 @@ public interface ProviderService {
 	
 	public Page<Provider> pageProviders(int page, int size);
 	public List<Provider> listProviders();
-	//public Provider addProvider(Provider provider);
+	public Provider addProvider(Provider provider);
 	public Provider  addProvider(int id,String nom,String email, String details, String ville, MultipartFile file)throws IOException;
 	//public void deleteProvider(int id) throws IOException;
 	
