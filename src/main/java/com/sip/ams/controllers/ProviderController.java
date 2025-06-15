@@ -71,7 +71,8 @@ public class ProviderController {
 	 * return this.providerService.addProvider(id,nom,email,details,ville,file); }
 	 */
 
-	@PostMapping("/addWithImage")
+	//@PostMapping("/addWithImage")
+	@PostMapping
 	public ResponseEntity<Provider> addproviderToList(@RequestParam(name = "id") int id,
 			@RequestParam(name = "nom") String nom, @RequestParam(name = "email") String email,
 			@RequestParam(name = "details") String details, @RequestParam(name = "ville") String ville,
@@ -82,11 +83,11 @@ public class ProviderController {
 
 	// Autre retour avec un msg
 
-	@PostMapping
+	/*@PostMapping
 	public ResponseEntity<Provider> createProvider(@RequestBody Provider provider) {
 		Provider savedProvider = providerService.addProvider(provider);
 		return new ResponseEntity<>(savedProvider, HttpStatus.CREATED);
-	}
+	}*/
 
 	/*
 	 * @DeleteMapping("/{id}") public void deleteProvider(@PathVariable("id") int
