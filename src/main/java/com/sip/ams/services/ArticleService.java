@@ -13,6 +13,7 @@ public interface ArticleService {
 	public List<Article> listArticles();
 	//public Article  addArticle(Article  article, MultipartFile file ) throws IOException;
 	public Article  addArticle(int id, String libelle, double prix, int provider, MultipartFile file)throws IOException;
+	public Article  addArticle(Article  article);
 	public Article  updateArticle(int id, Article  article);
 	public boolean deleteArticle (int id)throws IOException;
 	public Optional<Article > getArticleById(int id);
