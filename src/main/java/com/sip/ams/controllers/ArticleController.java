@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,13 +44,13 @@ public class ArticleController {
 	
 	@PostMapping("/")
 	
-	public Article saveArticle(
+	public ResponseEntity <Article> saveArticle(
 			@RequestParam(name="id") int id,
 			@RequestParam(name="libelle") String libelle,
 			@RequestParam(name="prix") double prix,
 			@RequestParam(name="provider") int provider,
 			@RequestParam(name="imageFile") MultipartFile file) throws IOException {
-		return this.articleServiceImp.addArticle(id,libelle,prix,provider, file);
+		return new ResponseEntity<>(this.articleServiceImp.addArticle(id,libelle,prix,provider, file), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{id}")

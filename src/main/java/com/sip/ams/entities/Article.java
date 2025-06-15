@@ -10,7 +10,18 @@ public class Article {
 	@Id
     private int id;
 
-    private String libelle;
+    public Article(int id, String libelle, double prix, Provider provider, String photo) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+		this.prix = prix;
+		this.provider = provider;
+		this.photo = photo;
+	}
+    public Article() {
+		super();
+	}
+	private String libelle;
     private double prix;
 
     @DBRef
