@@ -52,20 +52,44 @@ public class ArticleController {
 			@RequestParam(name="imageFile") MultipartFile file) throws IOException {
 		return new ResponseEntity<>(this.articleServiceImp.addArticle(id,libelle,prix,provider, file), HttpStatus.CREATED);
 	}
-	
+	/*
 	@DeleteMapping("/{id}")
 	public boolean deleteArticle(@PathVariable("id")int id) throws IOException{
 		return this.articleServiceImp.deleteArticle(id);
-	}
+	}*/
+	
+	@DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteArticle(@PathVariable int id) throws IOException{
+        boolean isDeleted = this.articleServiceImp.deleteArticle(id);
+        if (isDeleted) {
+            // Retourner un code 204 (No Content) pour une suppression réussie sans contenu
+            return new ResponseEntity<>("Article  with id : "+id+" deleted", HttpStatus.NO_CONTENT);
+        } else {
+            // Si le provider n'existe pas, retournez un code 404 (Not Found)
+            return new ResponseEntity<>("Article with id : "+id+" not found", HttpStatus.NOT_FOUND);
+        }
+    }
 	
 	@PutMapping("/{id}")
 	public Article updateArticle(@PathVariable("id")int id,@RequestBody Article article) {
 		return this.articleServiceImp.updateArticle(id, article);
 	}
 	
+	/*
 	@GetMapping("/{id}")
 	public Optional<Article> getArticleById(@PathVariable("id")int id) {
 		return this.articleServiceImp.getArticleById(id);
+	}*/
+	@GetMapping("/{id}")
+	public ResponseEntity<Article> getArticleById(@PathVariable("id") int id) {
+		Article article = this.articleServiceImp.getArticleById(id).get();
+		
+		//Provider provider = null;
+		if (article == null)
+			//throw new IllegalArgumentException("Argument invalide");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(article, HttpStatus.OK);
 	}
 
 }

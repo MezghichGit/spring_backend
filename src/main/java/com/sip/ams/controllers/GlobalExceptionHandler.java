@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.NoSuchElementException;
+import java.nio.file.NoSuchFileException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -19,4 +20,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleResourceNotFoundException(NoSuchElementException ex) {
         return new ResponseEntity<>("Ressource non trouvée", HttpStatus.NOT_FOUND);
     }
+   
+   @ExceptionHandler(NoSuchFileException.class)
+	public ResponseEntity<String> NoSuchFileException(NoSuchFileException ex) {
+      // Vous pouvez loguer l'exception ici pour plus de détails
+      return new ResponseEntity<>("Image Not found  : " , HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 }
